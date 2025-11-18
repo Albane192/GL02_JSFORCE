@@ -1,5 +1,24 @@
 {
+  "name": "gl02_jsforce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "colors": "^1.4.0"
+    "date-fns": "^4.1.0",
+    "ical-generator": "^10.0.0",
+    "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0"
   }
 }
