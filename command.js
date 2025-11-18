@@ -5,3 +5,5 @@ var Engine = {
     }
     }
     module.exports = Engine
+
+console.log("Magenta level checked".magenta)
