@@ -20,5 +20,14 @@
   },
   "devDependencies": {
     "jest": "^30.2.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://GL02_JSFORCE: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@github.com/mohammadahamad/GL02_JSFORCE.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/mohammadahamad/GL02_JSFORCE/issues"
+  },
+  "homepage": "https://github.com/mohammadahamad/GL02_JSFORCE#readme"
 }
