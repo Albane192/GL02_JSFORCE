@@ -1,0 +1,22 @@
+[
+  {
+    "code": "UVUV",
+    "slotsCount": 0,
+    "maxCapacity": 0
+  },
+  {
+    "code": "AP03",
+    "slotsCount": 2,
+    "maxCapacity": 25
+  },
+  {
+    "code": "BI01",
+    "slotsCount": 2,
+    "maxCapacity": 25
+  },
+  {
+    "code": "BI02",
+    "slotsCount": 2,
+    "maxCapacity": 25
+  }
+]

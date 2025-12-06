@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
+  "bin": {
+    "sru": "./src/cli/index.js"
   },
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,9 +23,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://GL02_JSFORCE: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@github.com/mohammadahamad/GL02_JSFORCE.git"
+    "url": "git+https://github.com/mohammadahamad/GL02_JSFORCE.git"
   },
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/mohammadahamad/GL02_JSFORCE/issues"
   },

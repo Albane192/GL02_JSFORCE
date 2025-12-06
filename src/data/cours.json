@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "intitule": "Programmation 1",
+    "enseignant": "dupont",
+    "groupe": "L2INFO",
+    "type": "CM",
+    "dureeMinutes": 120
+  }
+]

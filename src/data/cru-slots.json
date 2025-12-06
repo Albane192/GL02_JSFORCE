@@ -1,0 +1,79 @@
+[
+  {
+    "courseCode": "AP03",
+    "lineNo": "1",
+    "typeCode": "D1",
+    "capacity": 25,
+    "day": "V",
+    "startTime": "9:00",
+    "endTime": "12:00",
+    "subgroup": "F1",
+    "room": "B103"
+  },
+  {
+    "courseCode": "AP03",
+    "lineNo": "1",
+    "typeCode": "D1",
+    "capacity": 25,
+    "day": "V",
+    "startTime": "9:00",
+    "endTime": "12:00",
+    "subgroup": "F1",
+    "room": "B103"
+  },
+  {
+    "courseCode": "AP03",
+    "lineNo": "1",
+    "typeCode": "D2",
+    "capacity": 24,
+    "day": "V",
+    "startTime": "13:00",
+    "endTime": "16:00",
+    "subgroup": "F1",
+    "room": "B103"
+  },
+  {
+    "courseCode": "BI01",
+    "lineNo": "1",
+    "typeCode": "C1",
+    "capacity": 25,
+    "day": "ME",
+    "startTime": "8:00",
+    "endTime": "10:00",
+    "subgroup": "F1",
+    "room": "P101"
+  },
+  {
+    "courseCode": "BI01",
+    "lineNo": "1",
+    "typeCode": "D1",
+    "capacity": 25,
+    "day": "ME",
+    "startTime": "10:00",
+    "endTime": "12:00",
+    "subgroup": "F1",
+    "room": "P101"
+  },
+  {
+    "courseCode": "BI02",
+    "lineNo": "1",
+    "typeCode": "C1",
+    "capacity": 25,
+    "day": "J",
+    "startTime": "8:00",
+    "endTime": "10:00",
+    "subgroup": "F1",
+    "room": "S104"
+  },
+  {
+    "courseCode": "BI02",
+    "lineNo": "1",
+    "typeCode": "D1",
+    "capacity": 25,
+    "day": "J",
+    "startTime": "10:00",
+    "endTime": "12:00",
+    "subgroup": "F1",
+    "room": "S104"
+  }
+]

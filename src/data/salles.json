@@ -1,0 +1,12 @@
+[
+  {
+    "id": "A101",
+    "capacite": 40,
+    "equipements": ["video", "tableau"]
+  },
+  {
+    "id": "B202",
+    "capacite": 30,
+    "equipements": ["tableau"]
+  }
+]
