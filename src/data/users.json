@@ -3,3 +3,4 @@
   { "id": "dupont", "nom": "Dupont", "role": "enseignant" },
   { "id": "admin", "nom": "Administrateur", "role": "admin" }
 ]
+
