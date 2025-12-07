@@ -135,16 +135,6 @@ Fichiers présents :
 
 ---
 
-## ▶️ Lancer les tests unitaires
-
-Depuis la racine du projet :
-
-```bash
-npm test
-
-
-
-
 # ⚠️ Écarts au cahier des charges
 - Utilisateurs statiques car non demandé
 - Pas de séances multi-salles (non spécifié)
@@ -153,4 +143,3 @@ npm test
 
 ---
 
-# ✅ Fin du README
