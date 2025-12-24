@@ -8,15 +8,18 @@
   },
   "type": "module",
   "scripts": {
-  "test": "node --test"
-},
+    "test": "node --test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "canvas": "^3.2.0",
     "date-fns": "^4.1.0",
     "ical-generator": "^10.0.0",
-    "readline-sync": "^1.4.10"
+    "readline-sync": "^1.4.10",
+    "vega": "^6.2.0",
+    "vega-lite": "^6.4.1"
   },
   "devDependencies": {
     "jest": "^30.2.0"

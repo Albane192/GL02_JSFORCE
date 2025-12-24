@@ -48,6 +48,9 @@ npm install
 ## Installation globale
 npm link
 
+## Installation des packages pour Vega-Lite :
+npm install vega vega-lite canvas
+
 Utilisation : sru <commande>
 
 ---
@@ -147,3 +150,5 @@ L'évolution et la maintenance de ce projet est effectuée par l'équipe ALDACO 
 Une série de 4 scénarios détaillant 9 tests particuliers ont été effectués. Parmi ces 9 tests, 3 ont été un succès, 6 ont été partiellement réussis et aucun n'a été été un échec. 
 Pour assurer l'évolution de l'application, des tickets ont été attribués à chacun des membres de l'équipe ALDACO.
 Pour assurer la maintenance de l'application, un guide décrivant l'organisation du programme destiné aux développeurs permettra de maintenir le code à moyen terme. Ce guide est accompagné d'un guide de démarrage utilisateur contenant les principales fonctions du logiciel. Ces deux guides sont accessibles depuis le wiki du dépôt.
+
+

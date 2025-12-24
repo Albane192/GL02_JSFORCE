@@ -19,6 +19,13 @@ import { cruGetCourseInfo, cruGetSalleInfo } from "./cru-queries.js";
 import { writeCruICalForCourse } from "../export/cru-ical.js";
 import { detectCruConflicts } from "./cru-quality.js";
 
+// Rajout par ALDACO : 
+import fs from "fs";
+import * as vega from "vega";
+import * as vegaLite from "vega-lite";
+import { createCanvas } from "canvas";
+import readline from "readline";
+
 
 
 // ===================================================================
@@ -219,16 +226,100 @@ export function cmdExportCRU(filename) {
 }
 
 // ===================================================================
-//  STATS D'OCCUPATION
-// ===================================================================
+//  STATS D'OCCUPATION (Ajout Vega-Lite par ALDACO)
+// ==================================================================
 
-export function cmdStatsOccupation(startStr, endStr) {
+
+export async function cmdStatsOccupation(startStr, endStr) {
   const user = requireUser(["admin"]);
   if (!user) return;
 
-  try {
-    const stats = getSalleOccupationStats(startStr, endStr);
+  let stats;
 
+  try {
+    stats = getSalleOccupationStats(startStr, endStr);
+
+    // Préparer les données pour Vega-Lite
+    const statsData = stats.map(s => ({
+      salle: s.id,
+      taux: s.taux,
+      tauxFormatted: `${s.taux.toFixed(1)}%`,
+      occupation: s.taux >= 80 ? "Élevée (>= 80%)" :  s.taux >= 50 ? "Moyenne (40% à 80%)" : "Faible (< 40%)" 
+    }));
+
+    // Spécification Vega-Lite pour l'histogramme
+    const specVL = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      description: `Taux d'occupation des salles${startStr} → ${endStr}`,
+      width: 700,
+      height: 550,
+      data: {
+        values: statsData
+      },
+      mark: "bar",
+      encoding: {
+        x: {
+          field: "salle",
+          type: "nominal",
+          title: "Salles",
+        },
+        y: {
+          field: "taux",
+          type: "quantitative",
+          title: `Taux d'occupation (%) ${startStr} → ${endStr}`,
+          scale: {
+            domain: [0, 100]
+          },
+        },
+        color: {
+          field: "occupation",
+          type: "nominal",
+          scale: {
+            domain: ["Faible (< 40%)", "Moyenne (40% à 80%)", "Élevée (>= 80 %)"],
+            range: ["#dc2c19ff", "#eda813ff", "#21ce69ff"]
+          },
+          legend: {
+            title: "Occupation"
+          }
+        }
+      },
+    };
+
+    // Compilation Vega-Lite en Vega
+    const vegaSpec = vegaLite.compile(specVL).spec;
+
+    // Initialisation du moteur Vega
+    const view = new vega.View(vega.parse(vegaSpec), {
+      renderer: "none",
+      logLevel: vega.Warn,
+      loader: vega.loader(),
+    });
+
+    // Sauvegarde dans le dossier "export" de src
+    const canvas = await view.toCanvas();
+    const exportDir = "./src/export";
+
+    // Trouver le prochain numéro de fichier disponible
+    const existingFiles = fs.readdirSync(exportDir);
+    const occupationFiles = existingFiles.filter((f) =>
+      f.match(/^occupation_\d+\.png$/)
+    );
+
+    let fileNumber = 1;
+    if (occupationFiles.length > 0) {
+      const numbers = occupationFiles.map((f) => {
+        const match = f.match(/^occupation_(\d+)\.png$/);
+        return match ? parseInt(match[1], 10) : 0;
+      });
+      fileNumber = Math.max(...numbers) + 1;
+    }
+
+    const outputPath = `${exportDir}/occupation_${fileNumber}.png`;
+    fs.writeFileSync(outputPath, canvas.toBuffer("image/png"));
+    console.log(`Fichier : ${outputPath}`);
+
+  // Code de l'équipe de développement affiché dans le cas où il y a un problème avec Vega-Lite :
+  } catch (e) {
     console.log(`Taux d'occupation des salles entre ${startStr} et ${endStr} :`);
     console.log("");
 
@@ -243,10 +334,10 @@ export function cmdStatsOccupation(startStr, endStr) {
       }
       console.log("");
     });
-  } catch (e) {
-    console.error("Erreur :", e.message);
   }
 }
+
+
 
 // ===================================================================
 //  IMPORT CRU OFFICIEL → JSON internes
