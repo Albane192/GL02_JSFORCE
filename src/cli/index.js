@@ -29,11 +29,12 @@ async function main() {
   // ----------- LOGIN / WHOAMI -----------
   if (cmd === "login") {
     const userId = args[1];
-    if (!userId) {
-      console.log("Usage : sru login <idUtilisateur>");
+    const password = args[2];
+    if (!userId || !password) {
+      console.log("Usage : sru login <idUtilisateur> <motdepasse>");
       return;
     }
-    cmdLogin(userId);
+    cmdLogin(userId, password);
     return;
   }
 

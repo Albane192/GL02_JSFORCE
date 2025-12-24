@@ -360,13 +360,17 @@ export function cmdImportCRU(inputFilename) {
 }
 
 // ===================================================================
-//  LOGIN / WHOAMI
+//  LOGIN / WHOAMI (Modifié par ALDACO : Ticket 1)
 // ===================================================================
 
-export function cmdLogin(userId) {
+export function cmdLogin(userId, password) {
   const user = findUserById(userId);
   if (!user) {
     console.error("Utilisateur inconnu :", userId);
+    return;
+  }
+  if (user.mdp !== password) {
+    console.error("Veuillez entrer un mot de passe valide.");
     return;
   }
   setCurrentUser(userId);

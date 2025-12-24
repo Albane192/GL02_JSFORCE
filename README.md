@@ -72,7 +72,7 @@ Ajouter un utilisateur = ajouter une ligne JSON.
 # 💻 Commandes disponibles
 
 ## Authentification
-sru login <id>
+sru login <id> <mdp>
 sru whoami
 
 ## Consultation interne
@@ -101,18 +101,18 @@ sru cru-check-conflicts (admin)
 ---
 
 # 🧪 Tests rapides
-sru login admin
+sru login admin adminmdp
 sru import cru edt.cru
 sru cru-cours-info AP03
 sru cru-salle-info B103
 sru cru-check-conflicts
 
-sru login dupont
+sru login dupont dupontmdp
 sru reserve A101 2025-03-20T09:00 2025-03-20T11:00 --prof dupont --groupe L2INFO --cours 1
 
 sru cru-export-ical AP03 2025-03-01 2025-03-31 ap03.ics
 
-sru login admin
+sru login admin adminmdp
 sru stats-occupation 2025-03-01T00:00 2025-03-31T23:59
 
 ---
@@ -150,5 +150,8 @@ L'évolution et la maintenance de ce projet est effectuée par l'équipe ALDACO 
 Une série de 4 scénarios détaillant 9 tests particuliers ont été effectués. Parmi ces 9 tests, 3 ont été un succès, 6 ont été partiellement réussis et aucun n'a été été un échec. 
 Pour assurer l'évolution de l'application, des tickets ont été attribués à chacun des membres de l'équipe ALDACO.
 Pour assurer la maintenance de l'application, un guide décrivant l'organisation du programme destiné aux développeurs permettra de maintenir le code à moyen terme. Ce guide est accompagné d'un guide de démarrage utilisateur contenant les principales fonctions du logiciel. Ces deux guides sont accessibles depuis le wiki du dépôt.
+Historique de l'évolution :
+V1.1 : Ajout Vega-Lite
+V1.2 : Ajout d'un système d'authentification 
 
 

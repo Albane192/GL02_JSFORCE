@@ -1,6 +1,6 @@
 [
-  { "id": "etu1", "nom": "Etudiant 1", "role": "etudiant" },
-  { "id": "dupont", "nom": "Dupont", "role": "enseignant" },
-  { "id": "admin", "nom": "Administrateur", "role": "admin" }
+  { "id": "etu1", "nom": "Etudiant 1", "role": "etudiant", "mdp": "etu1mdp"},
+  { "id": "dupont", "nom": "Dupont", "role": "enseignant", "mdp": "dupontmdp" },
+  { "id": "admin", "nom": "Administrateur", "role": "admin", "mdp": "adminmdp" }
 ]
 
