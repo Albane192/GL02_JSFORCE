@@ -3,6 +3,7 @@
 ---
 
 ## 📑 Sommaire
+
 - Présentation
 - Fonctionnalités principales
 - Installation
@@ -17,6 +18,7 @@
 # 🏛️ Présentation
 
 SRU Planning est un outil en ligne de commande permettant :
+
 - d’importer des données CRU,
 - consulter les UV, salles et créneaux,
 - rechercher des salles disponibles,
@@ -27,6 +29,7 @@ SRU Planning est un outil en ligne de commande permettant :
 ---
 
 # 🚀 Fonctionnalités principales
+
 - Import CRU officiel
 - Lecture des UV, salles, créneaux
 - Réservations internes sans chevauchement
@@ -39,16 +42,20 @@ SRU Planning est un outil en ligne de commande permettant :
 # 🛠️ Installation
 
 ## Prérequis
+
 - Node.js ≥ 20
 
 ## Installation locale
+
 cd sru-planning
 npm install
 
 ## Installation globale
+
 npm link
 
 ## Installation des packages pour Vega-Lite :
+
 npm install vega vega-lite canvas
 
 Utilisation : sru <commande>
@@ -56,6 +63,7 @@ Utilisation : sru <commande>
 ---
 
 # 📂 Jeux de données
+
 Dossier src/data/ : salles.json, cours.json, reservations.json, users.json,
 cru-cours.json et cru-slots.json générés par :
 sru login admin
@@ -64,6 +72,7 @@ sru import cru edt.cru
 ---
 
 # 👥 Système d’utilisateurs
+
 Définis dans src/data/users.json.
 Ajouter un utilisateur = ajouter une ligne JSON.
 
@@ -72,26 +81,32 @@ Ajouter un utilisateur = ajouter une ligne JSON.
 # 💻 Commandes disponibles
 
 ## Authentification
+
 sru login <id> <mdp>
 sru whoami
 
 ## Consultation interne
+
 sru list salles
 sru list reservations
 sru salle-info <salle> <start> <end>
 sru cours-info <idCours>
 
 ## Réservations
+
 sru reserve <salle> <start> <end> --prof X --groupe Y --cours Z
 sru delete reservation <id> (admin)
 
 ## Recherche
+
 sru find-salle <capacité> <start> <end>
 
 ## Statistiques
+
 sru stats-occupation <start> <end> (admin)
 
 ## Commandes CRU
+
 sru import cru <file> (admin)
 sru cru-cours-info <UV>
 sru cru-salle-info <salle>
@@ -101,6 +116,7 @@ sru cru-check-conflicts (admin)
 ---
 
 # 🧪 Tests rapides
+
 sru login admin adminmdp
 sru import cru edt.cru
 sru cru-cours-info AP03
@@ -128,30 +144,29 @@ Aucune bibliothèque externe (Jest, Mocha, etc.) n’est utilisée.
 
 Les tests sont situés dans le dossier : /tests
 
-
 Fichiers présents :
 
 - `datetime.test.js` → tests des fonctions de gestion des dates (`parseDateTime`, `overlaps`)
 - `user.test.js` → tests du système d’utilisateurs (login, utilisateur courant)
 - `cru-quality.test.js` → tests du contrôle de qualité des données CRU
 
-
 ---
 
 # ⚠️ Écarts au cahier des charges
+
 - Utilisateurs statiques car non demandé
 - Pas de séances multi-salles (non spécifié)
 - Conflits CRU limités aux salles
 - Pas de tests automatisés, tests manuels fournis
 
 ---
+
 ## Evolution et maintenance
-L'évolution et la maintenance de ce projet est effectuée par l'équipe ALDACO (Marco Orfao, Damaris Barbot et Albane Verschelde). 
-Une série de 4 scénarios détaillant 9 tests particuliers ont été effectués. Parmi ces 9 tests, 3 ont été un succès, 6 ont été partiellement réussis et aucun n'a été été un échec. 
+
+L'évolution et la maintenance de ce projet est effectuée par l'équipe ALDACO (Marco Orfao, Damaris Barbot et Albane Verschelde).
+Une série de 4 scénarios détaillant 9 tests particuliers ont été effectués. Parmi ces 9 tests, 3 ont été un succès, 6 ont été partiellement réussis et aucun n'a été un échec.
 Pour assurer l'évolution de l'application, des tickets ont été attribués à chacun des membres de l'équipe ALDACO.
 Pour assurer la maintenance de l'application, un guide décrivant l'organisation du programme destiné aux développeurs permettra de maintenir le code à moyen terme. Ce guide est accompagné d'un guide de démarrage utilisateur contenant les principales fonctions du logiciel. Ces deux guides sont accessibles depuis le wiki du dépôt.
 Historique de l'évolution :
 V1.1 : Ajout Vega-Lite
-V1.2 : Ajout d'un système d'authentification 
-
-
+V1.2 : Ajout d'un système d'authentification

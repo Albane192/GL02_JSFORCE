@@ -26,7 +26,7 @@ export function listGroupes() {
 // --- ID AUTO-INCRÉMENTÉ ---
 
 function nextReservationId(reservations) {
-  const ids = reservations.map(r => r.id || 0);
+  const ids = reservations.map((r) => r.id || 0);
   const max = ids.length ? Math.max(...ids) : 0;
   return max + 1;
 }
@@ -38,11 +38,11 @@ function checkConflicts(newResa, existing) {
   const endNew = parseDateTime(newResa.end);
 
   for (const r of existing) {
+    console.log(r);
     const startR = parseDateTime(r.start);
     const endR = parseDateTime(r.end);
 
     if (overlaps(startNew, endNew, startR, endR)) {
-
       if (r.salle === newResa.salle) {
         return "Conflit : salle déjà réservée.";
       }
@@ -60,9 +60,18 @@ function checkConflicts(newResa, existing) {
   return null; // pas de conflit
 }
 
-// --- CRÉATION D'UNE RÉSERVATION ---
+// ===================================================================
+//  CRÉATION D'UNE RÉSERVATION // MODIFICATION PAR ALDACO (ticket 7)
+// ===================================================================
 
-export function createReservation({ salle, enseignant, groupe, coursId, startStr, endStr }) {
+export function createReservation({
+  salle,
+  enseignant,
+  groupe,
+  coursId,
+  startStr,
+  endStr,
+}) {
   const reservations = listReservations();
 
   const newResa = {
@@ -72,8 +81,19 @@ export function createReservation({ salle, enseignant, groupe, coursId, startStr
     groupe,
     coursId,
     start: startStr,
-    end: endStr
+    end: endStr,
   };
+
+  // Modification par Aldaco (ticket 7) : vérifier que la salle existe
+  let exist = false;
+  for (const salle of listSalles()) {
+    if (newResa.salle === salle.salle) {
+      exist = true;
+    }
+  }
+  if (!exist) {
+    throw new Error("La salle n'existe pas.");
+  }
 
   const error = checkConflicts(newResa, reservations);
   if (error) {
@@ -90,7 +110,7 @@ export function createReservation({ salle, enseignant, groupe, coursId, startStr
 
 export function deleteReservation(id) {
   const reservations = listReservations();
-  const index = reservations.findIndex(r => r.id === id);
+  const index = reservations.findIndex((r) => r.id === id);
 
   if (index === -1) {
     throw new Error("Réservation introuvable.");
@@ -105,7 +125,7 @@ export function deleteReservation(id) {
 
 export function getSalleById(idSalle) {
   const salles = listSalles();
-  return salles.find(s => s.id === idSalle) || null;
+  return salles.find((s) => s.id === idSalle) || null;
 }
 
 export function getReservationsForSalle(idSalle, startStr, endStr) {
@@ -113,25 +133,27 @@ export function getReservationsForSalle(idSalle, startStr, endStr) {
   const start = parseDateTime(startStr);
   const end = parseDateTime(endStr);
 
-  return all.filter(r => {
-    if (r.salle !== idSalle) return false;
-    const rs = parseDateTime(r.start);
-    const re = parseDateTime(r.end);
-    return overlaps(start, end, rs, re);
-  }).sort((a, b) => a.start.localeCompare(b.start));
+  return all
+    .filter((r) => {
+      if (r.salle !== idSalle) return false;
+      const rs = parseDateTime(r.start);
+      const re = parseDateTime(r.end);
+      return overlaps(start, end, rs, re);
+    })
+    .sort((a, b) => a.start.localeCompare(b.start));
 }
 
 // --- INFOS SUR UN COURS ---
 
 export function getCoursById(idCours) {
   const cours = listCours();
-  return cours.find(c => String(c.id) === String(idCours)) || null;
+  return cours.find((c) => String(c.id) === String(idCours)) || null;
 }
 
 export function getReservationsForCours(idCours) {
   const all = listReservations();
   return all
-    .filter(r => String(r.coursId) === String(idCours))
+    .filter((r) => String(r.coursId) === String(idCours))
     .sort((a, b) => a.start.localeCompare(b.start));
 }
 
@@ -159,17 +181,19 @@ export function findBestSalle(nbPersonnes, startStr, endStr) {
   const salles = listSalles();
 
   // 1. Filtrer les salles libres sur le créneau
-  const libres = salles.filter(s => isSalleLibre(s.id, startStr, endStr));
+  const libres = salles.filter((s) => isSalleLibre(s.id, startStr, endStr));
 
   // 2. Filtrer celles dont la capacité suffit
-  const assezGrandes = libres.filter(s => s.capacite >= nbPersonnes);
+  const assezGrandes = libres.filter((s) => s.capacite >= nbPersonnes);
 
   if (assezGrandes.length === 0) {
     return null; // aucune salle adaptée
   }
 
   // 3. Choisir celle avec la capacité la plus proche au-dessus du besoin
-  assezGrandes.sort((a, b) => (a.capacite - nbPersonnes) - (b.capacite - nbPersonnes));
+  assezGrandes.sort(
+    (a, b) => a.capacite - nbPersonnes - (b.capacite - nbPersonnes)
+  );
 
   return assezGrandes[0];
 }
@@ -195,7 +219,7 @@ export function getSalleOccupationStats(startStr, endStr) {
     throw new Error("Période invalide.");
   }
 
-  return salles.map(salle => {
+  return salles.map((salle) => {
     let occupiedMinutes = 0;
 
     for (const r of resas) {
@@ -215,8 +239,7 @@ export function getSalleOccupationStats(startStr, endStr) {
       capacite: salle.capacite,
       occupiedMinutes,
       totalMinutes,
-      taux: rate
+      taux: rate,
     };
   });
 }
-

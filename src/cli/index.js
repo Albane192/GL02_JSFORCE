@@ -17,11 +17,8 @@ import {
   cmdCruCoursInfo,
   cmdCruSalleInfo,
   cmdCruExportICal,
-  cmdCruCheckConflicts
+  cmdCruCheckConflicts,
 } from "../core/commands.js";
-
-
-
 async function main() {
   const args = process.argv.slice(2);
   const cmd = args[0];
@@ -63,7 +60,9 @@ async function main() {
     const end = args[3];
 
     if (!idSalle || !start || !end) {
-      console.log("Usage : sru salle-info <idSalle> <dateDebutISO> <dateFinISO>");
+      console.log(
+        "Usage : sru salle-info <idSalle> <dateDebutISO> <dateFinISO>"
+      );
       return;
     }
 
@@ -173,7 +172,7 @@ async function main() {
     return;
   }
 
-    // ----------- CRU-COURS-INFO -----------
+  // ----------- CRU-COURS-INFO -----------
   if (cmd === "cru-cours-info") {
     const codeCours = args[1];
     if (!codeCours) {
@@ -195,7 +194,7 @@ async function main() {
     return;
   }
 
-    // ----------- CRU-EXPORT-ICAL -----------
+  // ----------- CRU-EXPORT-ICAL -----------
   if (cmd === "cru-export-ical") {
     const codeCours = args[1];
     const startDate = args[2];
@@ -203,8 +202,12 @@ async function main() {
     const filename = args[4];
 
     if (!codeCours || !startDate || !endDate) {
-      console.log("Usage : sru cru-export-ical <codeCoursCRU> <dateDebut> <dateFin> [fichier]");
-      console.log("Exemple : sru cru-export-ical AP03 2025-03-01 2025-03-31 ap03-mars.ics");
+      console.log(
+        "Usage : sru cru-export-ical <codeCoursCRU> <dateDebut> <dateFin> [fichier]"
+      );
+      console.log(
+        "Exemple : sru cru-export-ical AP03 2025-03-01 2025-03-31 ap03-mars.ics"
+      );
       return;
     }
 
@@ -212,15 +215,11 @@ async function main() {
     return;
   }
 
-
-    // ----------- CRU-CHECK-CONFLICTS -----------
+  // ----------- CRU-CHECK-CONFLICTS -----------
   if (cmd === "cru-check-conflicts") {
     cmdCruCheckConflicts();
     return;
   }
-
-
-
 
   // ----------- HELP PAR DÉFAUT -----------
 
@@ -245,7 +244,6 @@ Commandes disponibles :
   sru export cru [fichier]
   sru import cru <cheminFichierCruOfficiel>
 `);
-
 }
 
 main();

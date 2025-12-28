@@ -17,7 +17,7 @@ export function reservationToICal(resa) {
     `LOCATION:${resa.salle}`,
     "END:VEVENT",
     "END:VCALENDAR",
-    ""
+    "",
   ].join("\r\n");
 }
 

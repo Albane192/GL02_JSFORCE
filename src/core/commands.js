@@ -8,7 +8,7 @@ import {
   getCoursById,
   getReservationsForCours,
   findBestSalle,
-  getSalleOccupationStats
+  getSalleOccupationStats,
 } from "./scheduler.js";
 
 import { writeICalFile } from "../export/ical.js";
@@ -19,14 +19,12 @@ import { cruGetCourseInfo, cruGetSalleInfo } from "./cru-queries.js";
 import { writeCruICalForCourse } from "../export/cru-ical.js";
 import { detectCruConflicts } from "./cru-quality.js";
 
-// Rajout par ALDACO : 
+// Rajout par ALDACO :
 import fs from "fs";
 import * as vega from "vega";
 import * as vegaLite from "vega-lite";
 import { createCanvas } from "canvas";
 import readline from "readline";
-
-
 
 // ===================================================================
 //  UTILITAIRE DE PERMISSIONS
@@ -35,13 +33,17 @@ import readline from "readline";
 function requireUser(roles = null) {
   const user = getCurrentUser();
   if (!user) {
-    console.error("Erreur : aucun utilisateur connecté. Utilise 'sru login <idUtilisateur>'.");
+    console.error(
+      "Erreur : aucun utilisateur connecté. Utilise 'sru login <idUtilisateur>'."
+    );
     return null;
   }
 
   if (roles && !roles.includes(user.role)) {
     console.error(
-      `Erreur : permission refusée. Rôle actuel = ${user.role}, rôles autorisés = ${roles.join(", ")}`
+      `Erreur : permission refusée. Rôle actuel = ${
+        user.role
+      }, rôles autorisés = ${roles.join(", ")}`
     );
     return null;
   }
@@ -55,8 +57,10 @@ function requireUser(roles = null) {
 
 export function cmdListSalles() {
   const salles = listSalles();
-  salles.forEach(s => {
-    console.log(`${s.id} (capacité ${s.capacite}) [${(s.equipements || []).join(", ")}]`);
+  salles.forEach((s) => {
+    console.log(
+      `${s.id} (capacité ${s.capacite}) [${(s.equipements || []).join(", ")}]`
+    );
   });
 }
 
@@ -67,10 +71,10 @@ export function cmdListReservations() {
     return;
   }
 
-  resas.forEach(r => {
+  resas.forEach((r) => {
     console.log(
       `#${r.id} salle=${r.salle} prof=${r.enseignant} ` +
-      `groupe=${r.groupe} ${r.start} -> ${r.end}`
+        `groupe=${r.groupe} ${r.start} -> ${r.end}`
     );
   });
 }
@@ -88,11 +92,13 @@ export function cmdReserve(args) {
   const startDate = new Date(start);
   const endDate = new Date(end);
 
-  if (startDate >= endDate){
-    console.error('Veuillez entrer une date de début antérieure à celle de fin.');
+  if (startDate >= endDate) {
+    console.error(
+      "Veuillez entrer une date de début antérieure à celle de fin."
+    );
     return;
   }
-  
+
   if (startDate.toDateString() !== endDate.toDateString()) {
     console.error("La réservation doit commencer et se terminer le même jour.");
     return;
@@ -101,7 +107,9 @@ export function cmdReserve(args) {
   const startHour = startDate.getHours();
   const endHour = endDate.getHours();
   if (startHour < 8 || endHour > 20) {
-    console.error("Les réservations doivent être comprises entre 08:00 et 20:00.");
+    console.error(
+      "Les réservations doivent être comprises entre 08:00 et 20:00."
+    );
     return;
   }
 
@@ -112,7 +120,7 @@ export function cmdReserve(args) {
       groupe,
       coursId: cours,
       startStr: start,
-      endStr: end
+      endStr: end,
     });
 
     console.log("Réservation créée :", resa);
@@ -160,7 +168,7 @@ export function cmdSalleInfo(idSalle, startStr, endStr) {
   for (const r of resas) {
     console.log(
       `  #${r.id} cours=${r.coursId} prof=${r.enseignant} ` +
-      `groupe=${r.groupe} ${r.start} -> ${r.end}`
+        `groupe=${r.groupe} ${r.start} -> ${r.end}`
     );
   }
 }
@@ -187,9 +195,7 @@ export function cmdCoursInfo(idCours) {
   }
 
   for (const r of resas) {
-    console.log(
-      `  #${r.id} salle=${r.salle} ${r.start} -> ${r.end}`
-    );
+    console.log(`  #${r.id} salle=${r.salle} ${r.start} -> ${r.end}`);
   }
 }
 
@@ -207,7 +213,9 @@ export function cmdFindSalle(nbPersonnes, startStr, endStr) {
   const salle = findBestSalle(n, startStr, endStr);
 
   if (!salle) {
-    console.log("Aucune salle disponible avec une capacité suffisante pour ce créneau.");
+    console.log(
+      "Aucune salle disponible avec une capacité suffisante pour ce créneau."
+    );
     return;
   }
 
@@ -225,7 +233,7 @@ export function cmdExportICal(idResa, filename) {
   if (!user) return;
 
   const resas = listReservations();
-  const resa = resas.find(r => r.id === idResa);
+  const resa = resas.find((r) => r.id === idResa);
 
   if (!resa) {
     console.error("Réservation introuvable :", idResa);
@@ -249,7 +257,6 @@ export function cmdExportCRU(filename) {
 //  STATS D'OCCUPATION (Ajout Vega-Lite par ALDACO, ticket 6)
 // ==================================================================
 
-
 export async function cmdStatsOccupation(startStr, endStr) {
   const user = requireUser(["admin"]);
   if (!user) return;
@@ -260,11 +267,16 @@ export async function cmdStatsOccupation(startStr, endStr) {
     stats = getSalleOccupationStats(startStr, endStr);
 
     // Préparer les données pour Vega-Lite
-    const statsData = stats.map(s => ({
+    const statsData = stats.map((s) => ({
       salle: s.id,
       taux: s.taux,
       tauxFormatted: `${s.taux.toFixed(1)}%`,
-      occupation: s.taux >= 80 ? "Élevée (>= 80%)" :  s.taux >= 50 ? "Moyenne (40% à 80%)" : "Faible (< 40%)" 
+      occupation:
+        s.taux >= 80
+          ? "Élevée (>= 80%)"
+          : s.taux >= 50
+          ? "Moyenne (40% à 80%)"
+          : "Faible (< 40%)",
     }));
 
     // Spécification Vega-Lite pour l'histogramme
@@ -274,7 +286,7 @@ export async function cmdStatsOccupation(startStr, endStr) {
       width: 700,
       height: 550,
       data: {
-        values: statsData
+        values: statsData,
       },
       mark: "bar",
       encoding: {
@@ -288,20 +300,24 @@ export async function cmdStatsOccupation(startStr, endStr) {
           type: "quantitative",
           title: `Taux d'occupation (%) ${startStr} → ${endStr}`,
           scale: {
-            domain: [0, 100]
+            domain: [0, 100],
           },
         },
         color: {
           field: "occupation",
           type: "nominal",
           scale: {
-            domain: ["Faible (< 40%)", "Moyenne (40% à 80%)", "Élevée (>= 80 %)"],
-            range: ["#dc2c19ff", "#eda813ff", "#21ce69ff"]
+            domain: [
+              "Faible (< 40%)",
+              "Moyenne (40% à 80%)",
+              "Élevée (>= 80 %)",
+            ],
+            range: ["#dc2c19ff", "#eda813ff", "#21ce69ff"],
           },
           legend: {
-            title: "Occupation"
-          }
-        }
+            title: "Occupation",
+          },
+        },
       },
     };
 
@@ -338,12 +354,14 @@ export async function cmdStatsOccupation(startStr, endStr) {
     fs.writeFileSync(outputPath, canvas.toBuffer("image/png"));
     console.log(`Fichier : ${outputPath}`);
 
-  // Code de l'équipe de développement affiché dans le cas où il y a un problème avec Vega-Lite :
+    // Code de l'équipe de développement affiché dans le cas où il y a un problème avec Vega-Lite :
   } catch (e) {
-    console.log(`Taux d'occupation des salles entre ${startStr} et ${endStr} :`);
+    console.log(
+      `Taux d'occupation des salles entre ${startStr} et ${endStr} :`
+    );
     console.log("");
 
-    stats.forEach(s => {
+    stats.forEach((s) => {
       const taux = s.taux.toFixed(1);
       const barLength = Math.round(s.taux / 5);
       const bar = "#".repeat(barLength);
@@ -369,9 +387,11 @@ export function cmdImportCRU(inputFilename) {
     const result = importOfficialCruFile(inputFilename);
     console.log(
       `Import CRU officiel terminé depuis ${result.file} : ` +
-      `${result.coursesCount} cours, ${result.slotsCount} créneau(x).`
+        `${result.coursesCount} cours, ${result.slotsCount} créneau(x).`
     );
-    console.log("Fichiers générés : src/data/cru-slots.json et src/data/cru-cours.json");
+    console.log(
+      "Fichiers générés : src/data/cru-slots.json et src/data/cru-cours.json"
+    );
   } catch (e) {
     console.error("Erreur lors de l'import CRU officiel :", e.message);
   }
@@ -401,7 +421,9 @@ export function cmdWhoAmI() {
     console.log("Aucun utilisateur connecté.");
     return;
   }
-  console.log(`Utilisateur courant : ${user.nom} (${user.role}) [id=${user.id}]`);
+  console.log(
+    `Utilisateur courant : ${user.nom} (${user.role}) [id=${user.id}]`
+  );
 }
 
 // ===================================================================
@@ -433,7 +455,9 @@ export function cmdCruCoursInfo(codeCours) {
   for (const s of slots) {
     console.log(
       `  ${s.day} ${s.startTime}-${s.endTime} ` +
-      `Salle=${s.room} Type=${s.typeCode} Cap=${s.capacity} Sous-groupe=${s.subgroup || "-"}`
+        `Salle=${s.room} Type=${s.typeCode} Cap=${s.capacity} Sous-groupe=${
+          s.subgroup || "-"
+        }`
     );
   }
 }
@@ -457,17 +481,21 @@ export function cmdCruSalleInfo(idSalle) {
   for (const s of slots) {
     console.log(
       `  Cours=${s.courseCode} ${s.day} ${s.startTime}-${s.endTime} ` +
-      `Type=${s.typeCode} Cap=${s.capacity} Sous-groupe=${s.subgroup || "-"}`
+        `Type=${s.typeCode} Cap=${s.capacity} Sous-groupe=${s.subgroup || "-"}`
     );
   }
 }
-
 
 // ===================================================================
 //  EXPORT ICALENDAR À PARTIR DES CRÉNEAUX CRU
 // ===================================================================
 
-export function cmdCruExportICal(codeCours, startDateStr, endDateStr, filename) {
+export function cmdCruExportICal(
+  codeCours,
+  startDateStr,
+  endDateStr,
+  filename
+) {
   const user = requireUser(); // n'importe quel utilisateur connecté
   if (!user) return;
 
@@ -484,7 +512,13 @@ export function cmdCruExportICal(codeCours, startDateStr, endDateStr, filename) 
   const outFile = filename || `${codeCours}.ics`;
 
   try {
-    const count = writeCruICalForCourse(codeCours, slots, startDateStr, endDateStr, outFile);
+    const count = writeCruICalForCourse(
+      codeCours,
+      slots,
+      startDateStr,
+      endDateStr,
+      outFile
+    );
     console.log(
       `iCalendar généré pour le cours ${codeCours} entre ${startDateStr} et ${endDateStr} :`
     );
@@ -506,7 +540,9 @@ export function cmdCruCheckConflicts() {
   const conflicts = detectCruConflicts();
 
   if (conflicts.length === 0) {
-    console.log("Aucun conflit détecté dans les données CRU (par salle/jour/créneau).");
+    console.log(
+      "Aucun conflit détecté dans les données CRU (par salle/jour/créneau)."
+    );
     return;
   }
 
@@ -514,9 +550,7 @@ export function cmdCruCheckConflicts() {
   console.log("");
 
   conflicts.forEach((c, index) => {
-    console.log(
-      `Conflit ${index + 1} — Salle ${c.room}, jour ${c.day}`
-    );
+    console.log(`Conflit ${index + 1} — Salle ${c.room}, jour ${c.day}`);
 
     const [A, B] = c.slots;
     console.log(
