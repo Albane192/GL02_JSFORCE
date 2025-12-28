@@ -1,12 +1,27 @@
 [
   {
     "id": "A101",
-    "capacite": 40,
+    "capacite": 30,
     "equipements": ["video", "tableau"]
   },
   {
     "id": "B202",
-    "capacite": 30,
+    "capacite": 40,
+    "equipements": ["tableau"]
+  },
+  {
+    "id": "A102",
+    "capacite": 60,
+    "equipements": ["video", "tableau"]
+  },
+  {
+    "id": "B203",
+    "capacite": 15,
+    "equipements": ["tableau"]
+  },
+  {
+    "id": "B305",
+    "capacite": 20,
     "equipements": ["tableau"]
   }
 ]

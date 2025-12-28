@@ -38,7 +38,6 @@ function checkConflicts(newResa, existing) {
   const endNew = parseDateTime(newResa.end);
 
   for (const r of existing) {
-    console.log(r);
     const startR = parseDateTime(r.start);
     const endR = parseDateTime(r.end);
 
@@ -87,7 +86,7 @@ export function createReservation({
   // Modification par Aldaco (ticket 7) : vérifier que la salle existe
   let exist = false;
   for (const salle of listSalles()) {
-    if (newResa.salle === salle.salle) {
+    if (newResa.salle === salle.id) {
       exist = true;
     }
   }
