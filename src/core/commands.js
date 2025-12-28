@@ -76,7 +76,7 @@ export function cmdListReservations() {
 }
 
 // ===================================================================
-//  RESERVATION / SUPPRESSION
+//  RESERVATION / SUPPRESSION // MODIFICATION PAR ALDACO (ticket 4)
 // ===================================================================
 
 export function cmdReserve(args) {
@@ -84,6 +84,26 @@ export function cmdReserve(args) {
   if (!user) return;
 
   const { salle, start, end, prof, groupe, cours } = args;
+
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  if (startDate >= endDate){
+    console.error('Veuillez entrer une date de début antérieure à celle de fin.');
+    return;
+  }
+  
+  if (startDate.toDateString() !== endDate.toDateString()) {
+    console.error("La réservation doit commencer et se terminer le même jour.");
+    return;
+  }
+
+  const startHour = startDate.getHours();
+  const endHour = endDate.getHours();
+  if (startHour < 8 || endHour > 20) {
+    console.error("Les réservations doivent être comprises entre 08:00 et 20:00.");
+    return;
+  }
 
   try {
     const resa = createReservation({
@@ -226,7 +246,7 @@ export function cmdExportCRU(filename) {
 }
 
 // ===================================================================
-//  STATS D'OCCUPATION (Ajout Vega-Lite par ALDACO)
+//  STATS D'OCCUPATION (Ajout Vega-Lite par ALDACO, ticket 6)
 // ==================================================================
 
 
@@ -336,8 +356,6 @@ export async function cmdStatsOccupation(startStr, endStr) {
     });
   }
 }
-
-
 
 // ===================================================================
 //  IMPORT CRU OFFICIEL → JSON internes

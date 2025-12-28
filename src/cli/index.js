@@ -227,7 +227,7 @@ async function main() {
   console.log(`Commande inconnue.
 
 Commandes disponibles :
-  sru login <idUtilisateur>
+  sru login <idUtilisateur> <mdp>
   sru whoami
   sru list salles
   sru list reservations
