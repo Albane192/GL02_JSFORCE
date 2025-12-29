@@ -170,3 +170,4 @@ Pour assurer la maintenance de l'application, un guide décrivant l'organisation
 Historique de l'évolution :
 V1.1 : Ajout Vega-Lite
 V1.2 : Ajout d'un système d'authentification
+V2 : Réglage pour cru-salle-info et l'exportation de calendriers
