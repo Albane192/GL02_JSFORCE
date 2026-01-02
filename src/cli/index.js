@@ -11,6 +11,7 @@ import {
   cmdExportICal,
   cmdExportCRU,
   cmdStatsOccupation,
+  cmdStatsCapacite,
   cmdLogin,
   cmdWhoAmI,
   cmdImportCRU,
@@ -108,6 +109,15 @@ async function main() {
     }
 
     cmdStatsOccupation(start, end);
+    return;
+  }
+
+// ===================================================================
+//  STATS DE CAPACITE (Ajout Vega-Lite par ALDACO, ticket 8)
+// ==================================================================
+
+  if (cmd === "stats-capacite") {
+    cmdStatsCapacite();
     return;
   }
 

@@ -23,5 +23,20 @@
     "id": "B305",
     "capacite": 20,
     "equipements": ["tableau"]
+  },
+  {
+    "id": "B103",
+    "capacite": 25,
+    "equipements": ["video", "tableau"]
+  },
+    {
+    "id": "P101",
+    "capacite": 25,
+    "equipements": ["tableau"]
+  },
+    {
+    "id": "S104",
+    "capacite": 25,
+    "equipements": ["tableau"]
   }
 ]

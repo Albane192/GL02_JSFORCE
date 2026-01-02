@@ -21,6 +21,7 @@ import { detectCruConflicts } from "./cru-quality.js";
 
 // Rajout par ALDACO :
 import fs from "fs";
+import path from "path";
 import * as vega from "vega";
 import * as vegaLite from "vega-lite";
 import { createCanvas } from "canvas";
@@ -374,6 +375,75 @@ export async function cmdStatsOccupation(startStr, endStr) {
     });
   }
 }
+
+// ===================================================================
+//  STATS DE CAPACITE (Ajout Vega-Lite par ALDACO, ticket 8)
+// ==================================================================
+
+export async function cmdStatsCapacite() {
+  try {
+    const salles = await listSalles();
+
+    if (!Array.isArray(salles) || salles.length === 0) {
+      console.error("Aucune salle disponible.");
+      return;
+    }
+
+    // Regroupement par capacité
+    const stats = {};
+
+    for (const salle of salles) {
+      if (typeof salle.capacite !== "number" || salle.capacite <= 0) {
+        throw new Error(
+          `Capacité invalide ou manquante pour la salle ${salle.id}`
+        );
+      }
+
+      stats[salle.capacite] = (stats[salle.capacite] || 0) + 1;
+    }
+
+    const data = Object.entries(stats).map(([capacite, nbSalles]) => ({
+      capacite: Number(capacite),
+      nbSalles
+    }));
+
+    // Spec Vega-Lite
+    const spec = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      description: "Nombre de salles par capacité d’accueil",
+      data: { values: data },
+      mark: "bar",
+      encoding: {
+        x: {
+          field: "capacite",
+          type: "ordinal",
+          title: "Capacité d’accueil"
+        },
+        y: {
+          field: "nbSalles",
+          type: "quantitative",
+          title: "Nombre de salles"
+        }
+      }
+    };
+
+    const vegaSpec = vegaLite.compile(spec).spec;
+    const view = new vega.View(vega.parse(vegaSpec), { renderer: "none" });
+    const canvas = await view.toCanvas();
+    const buffer = canvas.toBuffer();
+
+    const exportPath = path.join("src", "export", "capacite.png");
+
+    fs.writeFileSync(exportPath, buffer);
+
+    console.log(`Graphique de capacité généré avec succès : ${exportPath}`);
+
+  } catch (error) {
+    console.error("Erreur lors du calcul des statistiques de capacité :");
+    console.error(error.message);
+  }
+}
+
 
 // ===================================================================
 //  IMPORT CRU OFFICIEL → JSON internes
