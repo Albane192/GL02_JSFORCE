@@ -164,10 +164,15 @@ Fichiers présents :
 ## Evolution et maintenance
 
 L'évolution et la maintenance de ce projet est effectuée par l'équipe ALDACO (Marco Orfao, Damaris Barbot et Albane Verschelde).
-Une série de 4 scénarios détaillant 9 tests particuliers ont été effectués. Parmi ces 9 tests, 3 ont été un succès, 6 ont été partiellement réussis et aucun n'a été un échec.
+Une série de 4 scénarios détaillant 10 tests particuliers ont été effectués. Parmi ces 10 tests, 3 ont été un succès, 6 ont été partiellement réussis et 1 a été un échec.
 Pour assurer l'évolution de l'application, des tickets ont été attribués à chacun des membres de l'équipe ALDACO.
 Pour assurer la maintenance de l'application, un guide décrivant l'organisation du programme destiné aux développeurs permettra de maintenir le code à moyen terme. Ce guide est accompagné d'un guide de démarrage utilisateur contenant les principales fonctions du logiciel. Ces deux guides sont accessibles depuis le wiki du dépôt.
 Historique de l'évolution :
-V1.1 : Ajout Vega-Lite
-V1.2 : Ajout d'un système d'authentification
-V2 : Réglage pour cru-salle-info et l'exportation de calendriers
+V1.1 : Ajout Vega-Lite pour statistiques d'occupation (ticket 6)
+V1.2 : Ajout d'un système d'authentification (ticket 1)
+V1.3 : Réglages des horaires pour les réservations (ticket 4)
+V1.4 : Réglage pour cru-salle-info qui faisait une répétition d'informations (ticket 3)
+V1.5 : Réglage de l'exportation de calendriers (ticket 2)
+V1.6 : Réservation d'une salle inconnue rendue impossible (ticket 7)
+V1.7 : Ajout Vega-Lite pour capacité d'accueil des salles (ticket 8)
+V1.8 : Réglage conflit de réservation (ticket 5)
