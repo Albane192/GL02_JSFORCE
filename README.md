@@ -104,6 +104,7 @@ sru find-salle <capacité> <start> <end>
 ## Statistiques
 
 sru stats-occupation <start> <end> (admin)
+sru stats-capacite
 
 ## Commandes CRU
 
@@ -130,6 +131,7 @@ sru cru-export-ical AP03 2025-03-01 2025-03-31 ap03.ics
 
 sru login admin adminmdp
 sru stats-occupation 2025-03-01T00:00 2025-03-31T23:59
+sru stats-capacite
 
 ---
 
@@ -174,5 +176,5 @@ V1.3 : Réglages des horaires pour les réservations (ticket 4)
 V1.4 : Réglage pour cru-salle-info qui faisait une répétition d'informations (ticket 3)
 V1.5 : Réglage de l'exportation de calendriers (ticket 2)
 V1.6 : Réservation d'une salle inconnue rendue impossible (ticket 7)
-V1.7 : Ajout Vega-Lite pour capacité d'accueil des salles (ticket 8)
+V1.7 : Création de la commande sru stats-capacite (ticket 8)
 V1.8 : Réglage conflit de réservation (ticket 5)
